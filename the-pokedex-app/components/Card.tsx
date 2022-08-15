@@ -32,7 +32,7 @@ const Card = (props:CardProps) =>{
                         // @ts-ignore
                         about:props.i.abilities,
                         // @ts-ignore
-                        h:6,
+                        h:Number(props.i.height),
                         // @ts-ignore
                         w:Number(props.i.weight),
 
