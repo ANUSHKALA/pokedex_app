@@ -22,7 +22,7 @@ export default function Search() {
                     // @ts-ignore
                     imgUrl={data.image}
                     // @ts-ignore
-                    i={typeof (data.about)}>
+                    i={(data.about)}>
                 </Card>
 
             </div>

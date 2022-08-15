@@ -13,7 +13,7 @@ export default function Page() {
             // @ts-ignore
             title={data.title}>
 
-            <div className="text-center">
+            <div className="relative text-center">
 
                 <img
                     // @ts-ignore
@@ -39,7 +39,7 @@ export default function Page() {
                     {Object(data.about).map((el:String,index:number) => {
 
                         return(
-                            <div>
+                            <div key={index}>
                                 {el}
                                 <br />
                             </div>

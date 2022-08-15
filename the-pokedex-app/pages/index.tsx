@@ -13,90 +13,68 @@ import {type} from "os";
 const Home: NextPage = (props:any) => {
 
     const[searchName, setSearchName] = useState("");
-    const[info, setInfo] = useState({img: "", name: "",count:0,in:{}})
-    const[mp, setMap] = useState([])
+    const[info, setInfo] = useState({img: "", name: "",count:0,in:{}});
+    const[reqIndex, setReqIndex] = useState(0);
+    let mp:Array<String> = [];
 
-    function handleChange(e: React.FormEvent<HTMLInputElement>){
+    async function handleChange(e: React.FormEvent<HTMLInputElement>) {
         // @ts-ignore
-        // console.log(e.target.name)
-        // // @ts-ignore
-        // console.log(e.target.value)
-        // @ts-ignore
-        setSearchName(e.target.value)
+        setSearchName(e.target.value);
+
     }
 
+    async function searching() {
+        for (let i in mp) {
 
-    // async function handleClick(e: React.FormEvent<HTMLInputElement>) {
-    //
-    //     e.preventDefault()
-    //
-    //     console.log("thgrfd")
-    //
-    //     const response = await fetch('https://pokeapi.co/api/v2/pokemon?limit=50&offset=0');
-    //     const results = await response.json();
-    //
-    //     let arr:[] = [];
-    //     let names:[] = [];
-    //
-    //     for (let i:number = 0;i<results.results.length;i++){
-    //         let x:any = results.results[i];
-    //         // @ts-ignore
-    //         arr.push(x.url);
-    //     }
-    //     console.log(arr)
-    //
-    //     arr.map(async (element: any, index: number) => {
-    //         const resp = await fetch(element);
-    //         const jres = await resp.json();
-    //         // @ts-ignore
-    //         names.push(jres.name);
-    //         console.log("kiuytgv")
-    //         let abilityArr:[] = []
-    //         jres.abilities.map((el:String,index:number) => {
-    //             // @ts-ignore
-    //             abilityArr.push(el);
-    //             console.log(el)
-    //         })
-    //
-    //         // console.log(jres.name);
-    //         console.log(("llalalala"))
-    //         for(let i in names){
-    //             // @ts-ignore
-    //             if(names[i] === searchName.toLowerCase()){
-    //                 console.log("okokok")
-    //                 setInfo({
-    //                     name: jres.name,
-    //                     count: jres.results.length,
-    //                     img: jres.sprites.front_default,
-    //                     in: {
-    //                         'weight':jres.weight,
-    //                         'height':jres.height,
-    //                         "abilities":abilityArr
-    //                     }
-    //                 })
-    //             }
-    //             else{
-    //                 console.log(("nonono nooooooooooooooooo"))
-    //             }
-    //         }
-    //
-    //     })
-    //
-    //
-    //
-    //     console.log(searchName);
-    //
-    // }
-
-    async function refMap() {
-        const res = await fetch('https://pokeapi.co/api/v2/pokemon?limit=100&offset=0');
-        const jres = await res.json();
-        console.log(jres)
-        jres.map((el:String,index:number) => {
             // @ts-ignore
-            setMap([...mp,{p:el.name,i:indx+1}])
+            if (mp[i].name === searchName) {
+                console.log("yasss")
+                // setSearchName("htgfd")
+                // console.log(mp[i].index)
+                // @ts-ignore
+                const r = await fetch("https://pokeapi.co/api/v2/pokemon/" + mp[i].index + "/");
+                const jr = await r.json();
+                let abilityArr:[] = []
+                jr.abilities.map((el:String,index:number) => {
+                    // @ts-ignore
+                    abilityArr.push(el.ability.name);
+                })
+                // console.log(searchName)
+                // console.log(abilityArr+" hgfd")
+                setInfo({
+                    count: 0,
+                    img: jr.sprites.front_default,
+                    name: jr.name,
+                    in:{
+                        'weight':jr.weight,
+                        'height':jr.height,
+                        "abilities":abilityArr
+                    } }
+                )
+
+                console.log(info);
+
+            } else {
+                console.log("no no no")
+                // @ts-ignore
+                // console.log(mp[i].name)
+                // console.log(searchName)
+            }
+        }
+    }
+
+    async function refMap(e: React.FormEvent<HTMLInputElement>) {
+        const res = await fetch('https://pokeapi.co/api/v2/pokemon?limit=3&offset=0');
+        const jres = await res.json();
+
+        jres.results.map((el:String,index:number) => {
+            // @ts-ignore
+            mp.push({name:el.name,index:index+1})
+
         })
-        console.log(mp)
+
+        await searching()
+        // console.log(mp)
     }
 
 
@@ -106,17 +84,12 @@ const Home: NextPage = (props:any) => {
 
         <div className="">
             <Layout title="PokeDex" >
-
                 <div>
                     <form>
-
                         <input onChange={handleChange} className="flex flex-col justify-center text-gray-900" name="pokename" type="text" id="pokename" placeholder="Enter pokemon name"/>
-
                         <Link
-                            onClick={refMap}
                             href={{
                             pathname:'/info/SearchPage',
-
                             query:{
                                 // @ts-ignore
                                 title: info.name,
@@ -128,21 +101,18 @@ const Home: NextPage = (props:any) => {
 
                         }}>
                             <button
+                                // @ts-ignore
+                                onClick={refMap}
                                 type="button"
                                 data-mdb-ripple="true"
                                 data-mdb-ripple-color="light"
                                 name="goButton"
                                 className="inline-block px-6 py-2.5 bg-green-700 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
-                                // @ts-ignore
                             >Go</button>
-
                         </Link>
-
                     </form>
                 </div>
-
                 {props.info.map(function (el:any,index:number){
-
                     return(
                         <div key={index} className = "grid lg:grid-cols-4">
                             <Card key={index} title={el.name} imgUrl={el.img} i={el.in}>
@@ -150,13 +120,9 @@ const Home: NextPage = (props:any) => {
                                 <img src={el.img}/>
                             </Card>
                         </div>
-
                     )
                 })}
-                {/*{console.log(typeof props.info)}*/}
-
             </Layout>
-
         </div>
 
     )
@@ -167,7 +133,7 @@ const Home: NextPage = (props:any) => {
 export const getServerSideProps = (async () => {
 
 
-    const res = await fetch('https://pokeapi.co/api/v2/pokemon?limit=2&offset=0');
+    const res = await fetch('https://pokeapi.co/api/v2/pokemon?limit=16&offset=0');
     const results = await res.json() ;
     type typeInfoMap ={
         name:String,
@@ -193,10 +159,9 @@ export const getServerSideProps = (async () => {
         rj.abilities.map((el:String,index:number) => {
             // @ts-ignore
             abilityArr.push(el.ability.name);
-            // console.log(el.ability.name)
         })
 
-        console.log(abilityArr)
+        // console.log(abilityArr)
 
         infoArr['name'] = rj.name;
         infoArr['img'] = rj.sprites.front_default;
