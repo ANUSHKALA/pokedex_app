@@ -7,6 +7,16 @@ import {useRouter} from "next/router";
 export default function Page() {
     const router = useRouter();
     const data = router.query;
+
+    let o:[] = [];
+
+
+    for(let i in Object(data.about)){
+        o = [...o,(Object(data.about))[i]]
+    }
+
+
+    // @ts-ignore
     // @ts-ignore
     return(
         <Layout
@@ -28,15 +38,17 @@ export default function Page() {
                 </h2>
                 <hr />
 
-                <p>
-                    Weight:            { Number(data.w)}
+                <div>
+                    Weight: { Number(data.w)}
                     <br />
-                    Height:             { Number(data.h)}
+                    Height: { Number(data.h)}
+                    <br />
+                    Type: {data.type}
                     <br />
                     Abilities:
                     <br />
 
-                    {Object(data.about).map((el:String,index:number) => {
+                    {o.map((el:String,index:number) => {
 
                         return(
                             <div key={index}>
@@ -45,10 +57,8 @@ export default function Page() {
                             </div>
                         )
                     })}
-                </p>
+                </div>
             </div>
 
         </Layout>
-    )
-
-   }
+    )}

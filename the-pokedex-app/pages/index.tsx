@@ -15,6 +15,7 @@ const Home: NextPage = (props:any) => {
     const[searchName, setSearchName] = useState("");
     const[info, setInfo] = useState({img: "", name: "",count:0,in:{}});
     const[reqIndex, setReqIndex] = useState(0);
+    const[data, setData] = useState({});
     let mp:Array<String> = [];
 
     async function handleChange(e: React.FormEvent<HTMLInputElement>) {
@@ -23,59 +24,70 @@ const Home: NextPage = (props:any) => {
 
     }
 
-    async function searching() {
-        for (let i in mp) {
-
-            // @ts-ignore
-            if (mp[i].name === searchName) {
-                console.log("yasss")
-                // setSearchName("htgfd")
-                // console.log(mp[i].index)
-                // @ts-ignore
-                const r = await fetch("https://pokeapi.co/api/v2/pokemon/" + mp[i].index + "/");
-                const jr = await r.json();
-                let abilityArr:[] = []
-                jr.abilities.map((el:String,index:number) => {
-                    // @ts-ignore
-                    abilityArr.push(el.ability.name);
-                })
-                // console.log(searchName)
-                // console.log(abilityArr+" hgfd")
-                setInfo({
-                    count: 0,
-                    img: jr.sprites.front_default,
-                    name: jr.name,
-                    in:{
-                        'weight':jr.weight,
-                        'height':jr.height,
-                        "abilities":abilityArr
-                    } }
-                )
-
-                console.log(info);
-
-            } else {
-                console.log("no no no")
-                // @ts-ignore
-                // console.log(mp[i].name)
-                // console.log(searchName)
-            }
-        }
-    }
 
     async function refMap(e: React.FormEvent<HTMLInputElement>) {
         const res = await fetch('https://pokeapi.co/api/v2/pokemon?limit=3&offset=0');
         const jres = await res.json();
 
-        jres.results.map((el:String,index:number) => {
+        jres.results.map(async (el: String, index: number) => {
             // @ts-ignore
-            mp.push({name:el.name,index:index+1})
+            mp.push({name: el.name, index: index + 1})
+
+            // @ts-ignore
+            if (el.name === searchName) {
+                console.log("yasss")
+                // @ts-ignore
+                imp = index+1;
+                console.log(imp)
+            } else {
+                console.log("no no no");
+            }
+
+            // @ts-ignore
+            console.log(imp)
+            // @ts-ignore
+            const r = await fetch("https://pokeapi.co/api/v2/pokemon/" + imp + "/");
+            const jr = await r.json();
+
+            let abilityArr: [] = []
+            jr.abilities.map((el: String, index: number) => {
+                // @ts-ignore
+                abilityArr.push(el.ability.name);
+            })
+            // console.log(jr)
+            // console.log(abilityArr)
+            setInfo({
+                    count: 0,
+                    img: jr.sprites.front_default,
+                    name: jr.name,
+                    in: {
+                        'weight': jr.weight,
+                        'height': jr.height,
+                        "abilities": abilityArr,
+                        'type': jr.types[0].type.name
+                    }
+                },
+            )
+
+            console.log(info)
 
         })
 
-        await searching()
-        // console.log(mp)
-    }
+        let imp:number;
+
+        for (let i in mp) {
+
+            // @ts-ignore
+
+
+
+    }}
+
+    // function sendingData(){
+    //
+    //
+    //
+    // }
 
 
 
@@ -169,7 +181,8 @@ export const getServerSideProps = (async () => {
         infoArr['in'] = {
             'weight':rj.weight,
             'height':rj.height,
-            "abilities":abilityArr
+            "abilities":abilityArr,
+            'type':rj.types[0].type.name,
         }
 
         // console.log(typeof (infoArr['in']))
