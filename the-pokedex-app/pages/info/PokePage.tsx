@@ -12,6 +12,7 @@ export default function Page() {
 
 
     for(let i in Object(data.about)){
+        // @ts-ignore
         o = [...o,(Object(data.about))[i]]
     }
 

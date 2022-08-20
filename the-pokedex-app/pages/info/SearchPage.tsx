@@ -10,25 +10,6 @@ export default function Search() {
     const data = router.query;
 
 
-    return(
-        <Layout
-            // @ts-ignore
-            title={data.title}>
-            <div>
-                {data.image}
-                <Card
-                    // @ts-ignore
-                    title={data.name}
-                    // @ts-ignore
-                    imgUrl={data.image}
-                    // @ts-ignore
-                    i={(data.about)}
-                >
-                </Card>
 
-            </div>
-
-        </Layout>
-    )
 
 }

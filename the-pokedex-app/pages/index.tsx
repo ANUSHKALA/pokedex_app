@@ -12,76 +12,55 @@ import {type} from "os";
 
 const Home: NextPage = (props:any) => {
 
-    const[searchName, setSearchName] = useState("");
-    const[info, setInfo] = useState({img: "", name: "",count:0,in:{}});
+    let searchName:String = ""
+    const[info, setInfo] = useState({});
     const[reqIndex, setReqIndex] = useState(0);
     const[data, setData] = useState({});
     let mp:Array<String> = [];
 
-    async function handleChange(e: React.FormEvent<HTMLInputElement>) {
+    function handleChange(e: React.FormEvent<HTMLInputElement>) {
         // @ts-ignore
-        setSearchName(e.target.value);
+        searchName = e.target.value
+        console.log(searchName);
+
+        refMap();
 
     }
 
 
-    async function refMap(e: React.FormEvent<HTMLInputElement>) {
+    async function refMap() {
+
         const res = await fetch('https://pokeapi.co/api/v2/pokemon?limit=3&offset=0');
         const jres = await res.json();
 
-        jres.results.map(async (el: String, index: number) => {
+        jres.results.map((el: String, index: number) => {
             // @ts-ignore
             mp.push({name: el.name, index: index + 1})
 
+        })
+
+        mp.map(async (el, index) => {
             // @ts-ignore
             if (el.name === searchName) {
                 console.log("yasss")
-                // @ts-ignore
-                imp = index+1;
-                console.log(imp)
+                console.log(el.name)
+                console.log(searchName)
+
+                const r = await fetch("https://pokeapi.co/api/v2/pokemon/" + index + 1 + "/");
+                setInfo(await r.json());
+
+                console.log("info")
+                console.log(info)
+
             } else {
                 console.log("no no no");
+                console.log(el.name)
+                console.log(searchName)
+
             }
-
-            // @ts-ignore
-            console.log(imp)
-            // @ts-ignore
-            const r = await fetch("https://pokeapi.co/api/v2/pokemon/" + imp + "/");
-            const jr = await r.json();
-
-            let abilityArr: [] = []
-            jr.abilities.map((el: String, index: number) => {
-                // @ts-ignore
-                abilityArr.push(el.ability.name);
-            })
-            // console.log(jr)
-            // console.log(abilityArr)
-            setInfo({
-                    count: 0,
-                    img: jr.sprites.front_default,
-                    name: jr.name,
-                    in: {
-                        'weight': jr.weight,
-                        'height': jr.height,
-                        "abilities": abilityArr,
-                        'type': jr.types[0].type.name
-                    }
-                },
-            )
-
-            console.log(info)
-
         })
 
-        let imp:number;
-
-        for (let i in mp) {
-
-            // @ts-ignore
-
-
-
-    }}
+    }
 
     // function sendingData(){
     //
@@ -92,52 +71,80 @@ const Home: NextPage = (props:any) => {
 
 
     // console.log(pokemon)
-    return (
 
-        <div className="">
-            <Layout title="PokeDex" >
-                <div>
-                    <form>
-                        <input onChange={handleChange} className="flex flex-col justify-center text-gray-900" name="pokename" type="text" id="pokename" placeholder="Enter pokemon name"/>
-                        <Link
-                            href={{
-                            pathname:'/info/SearchPage',
-                            query:{
-                                // @ts-ignore
-                                title: info.name,
-                                // @ts-ignore
-                                image:info.img,
-                                // @ts-ignore
-                                about:info.in
-                            }
+    if(searchName === ""){
 
-                        }}>
-                            <button
-                                // @ts-ignore
-                                onClick={refMap}
-                                type="button"
-                                data-mdb-ripple="true"
-                                data-mdb-ripple-color="light"
-                                name="goButton"
-                                className="inline-block px-6 py-2.5 bg-green-700 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
-                            >Go</button>
-                        </Link>
-                    </form>
-                </div>
-                {props.info.map(function (el:any,index:number){
-                    return(
-                        <div key={index} className = "grid lg:grid-cols-4">
-                            <Card key={index} title={el.name} imgUrl={el.img} i={el.in}>
-                                {el.name}
-                                <img src={el.img}/>
-                            </Card>
-                        </div>
-                    )
-                })}
-            </Layout>
-        </div>
+        return (
 
+            <div className="">
+                <Layout title="PokeDex" >
+                    <div>
+                        <form>
+                            <input onChange={handleChange} className="flex flex-col justify-center text-gray-900" name="pokename" type="text" id="pokename" placeholder="Enter pokemon name"/>
+                            {/*<Link*/}
+                            {/*    href={{*/}
+                            {/*        pathname:'/info/SearchPage',*/}
+                            {/*        query:{*/}
+                            {/*            // @ts-ignore*/}
+                            {/*            title: info.name,*/}
+                            {/*            // @ts-ignore*/}
+                            {/*            image:info.img,*/}
+                            {/*            // @ts-ignore*/}
+                            {/*            about:info.in*/}
+                            {/*        }*/}
+
+                            {/*    }}>*/}
+                                <button
+                                    // @ts-ignore
+                                    // onClick={refMap}
+                                    type="button"
+                                    data-mdb-ripple="true"
+                                    data-mdb-ripple-color="light"
+                                    name="goButton"
+                                    className="inline-block px-6 py-2.5 bg-green-700 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
+                                >Go</button>
+                            {/*</Link>*/}
+                        </form>
+                    </div>
+                    {props.info.map(function (el:any,index:number){
+                        return(
+                            <div key={index} className = "grid lg:grid-cols-4">
+                                <Card key={index} title={el.name} imgUrl={el.img} i={el.in}>
+                                    {el.name}
+                                    <img src={el.img}/>
+                                </Card>
+                            </div>
+                        )
+                    })}
+                </Layout>
+            </div>
+
+        )
+
+    }
+
+    return(
+        <Layout
+            // @ts-ignore
+            title={info.name}>
+            <div>
+
+                <Card
+                    // @ts-ignore
+                    title={info.name}
+                    // @ts-ignore
+                    imgUrl={info.sprites.front_default}
+                    // @ts-ignore
+                    i={(data.about)}
+                >
+                </Card>
+
+            </div>
+
+        </Layout>
     )
+
+
 }
 
 
