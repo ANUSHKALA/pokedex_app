@@ -31,12 +31,12 @@ export default function Page() {
                     src={data.image}
                     width="200"
                     height="200"/>
-                <h2 className="text-center text-3xl">
+                <h1 className="text-center text-3xl">
 
                     {//@ts-ignore
                         (data.title)
                     }
-                </h2>
+                </h1>
                 <hr />
 
                 <div>

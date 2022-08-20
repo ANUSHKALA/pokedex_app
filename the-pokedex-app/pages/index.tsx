@@ -78,34 +78,34 @@ const Home: NextPage = (props:any) => {
 
             <div className="">
                 <Layout title="PokeDex" >
-                    <div>
-                        <form>
-                            <input onChange={handleChange} className="flex flex-col justify-center text-gray-900" name="pokename" type="text" id="pokename" placeholder="Enter pokemon name"/>
-                            {/*<Link*/}
-                            {/*    href={{*/}
-                            {/*        pathname:'/info/SearchPage',*/}
-                            {/*        query:{*/}
-                            {/*            // @ts-ignore*/}
-                            {/*            title: info.name,*/}
-                            {/*            // @ts-ignore*/}
-                            {/*            image:info.img,*/}
-                            {/*            // @ts-ignore*/}
-                            {/*            about:info.in*/}
-                            {/*        }*/}
+                    {/*<div>*/}
+                    {/*    <form>*/}
+                    {/*        <input onChange={handleChange} className="flex flex-col justify-center text-gray-900" name="pokename" type="text" id="pokename" placeholder="Enter pokemon name"/>*/}
+                    {/*        /!*<Link*!/*/}
+                    {/*        /!*    href={{*!/*/}
+                    {/*        /!*        pathname:'/info/SearchPage',*!/*/}
+                    {/*        /!*        query:{*!/*/}
+                    {/*        /!*            // @ts-ignore*!/*/}
+                    {/*        /!*            title: info.name,*!/*/}
+                    {/*        /!*            // @ts-ignore*!/*/}
+                    {/*        /!*            image:info.img,*!/*/}
+                    {/*        /!*            // @ts-ignore*!/*/}
+                    {/*        /!*            about:info.in*!/*/}
+                    {/*        /!*        }*!/*/}
 
-                            {/*    }}>*/}
-                                <button
-                                    // @ts-ignore
-                                    // onClick={refMap}
-                                    type="button"
-                                    data-mdb-ripple="true"
-                                    data-mdb-ripple-color="light"
-                                    name="goButton"
-                                    className="inline-block px-6 py-2.5 bg-green-700 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
-                                >Go</button>
-                            {/*</Link>*/}
-                        </form>
-                    </div>
+                    {/*        /!*    }}>*!/*/}
+                    {/*            <button*/}
+                    {/*                // @ts-ignore*/}
+                    {/*                // onClick={refMap}*/}
+                    {/*                type="button"*/}
+                    {/*                data-mdb-ripple="true"*/}
+                    {/*                data-mdb-ripple-color="light"*/}
+                    {/*                name="goButton"*/}
+                    {/*                className="inline-block px-6 py-2.5 bg-green-700 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"*/}
+                    {/*            >Go</button>*/}
+                    {/*        /!*</Link>*!/*/}
+                    {/*    </form>*/}
+                    {/*</div>*/}
                     {props.info.map(function (el:any,index:number){
                         return(
                             <div key={index} className = "grid lg:grid-cols-4">
@@ -152,7 +152,7 @@ const Home: NextPage = (props:any) => {
 export const getServerSideProps = (async () => {
 
 
-    const res = await fetch('https://pokeapi.co/api/v2/pokemon?limit=16&offset=0');
+    const res = await fetch('https://pokeapi.co/api/v2/pokemon?limit=500&offset=0');
     const results = await res.json() ;
     type typeInfoMap ={
         name:String,
