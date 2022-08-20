@@ -43,7 +43,7 @@ const Home: NextPage = (props:any) => {
             // @ts-ignore
             if (el.name === searchName) {
                 console.log("yasss")
-                console.log(el.name)
+                // console.log(el.name)
                 console.log(searchName)
 
                 const r = await fetch("https://pokeapi.co/api/v2/pokemon/" + index + 1 + "/");
@@ -54,7 +54,7 @@ const Home: NextPage = (props:any) => {
 
             } else {
                 console.log("no no no");
-                console.log(el.name)
+                // console.log(el.name)
                 console.log(searchName)
 
             }
