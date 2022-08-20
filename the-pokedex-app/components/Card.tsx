@@ -17,12 +17,12 @@ const Card = (props:CardProps) =>{
     return(
         <div className="flex ">
             <div className="w-full md:w-6/12 lg:w-3/12 lg:mb-0 mb-12 px-4">
-                <div  className="px-6">
-                    <img className="rounded-xl shadow-lg max-w-full h-auto align-middle border-none undefined"
+                <div  className="px-1 ml-10">
+                    <img className="rounded-xl shadow-lg max-w-full h-auto align-middle border-none undefined bg-amber-50"
                         // @ts-ignore
                          src={props.imgUrl}/>
                     <div className="pt-6 text-center">
-                        <h1 className="text-gray-900 text-xl font-serif font-bold leading-normal mt-0 mb-2">{(props.title)}</h1>
+                        <h1 className="text-amber-100 text-xl font-serif font-bold leading-normal mt-0 mb-2">{(props.title)}</h1>
                         <div className="flex items-center justify-center">
                             <Link href={{
                                 pathname:'/info/PokePage',

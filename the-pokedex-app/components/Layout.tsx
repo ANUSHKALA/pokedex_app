@@ -14,10 +14,9 @@ const Layout = (props:LayoutProps) =>{
                 <title>
                     {props.title}
                 </title>
-                <link rel={"icon"} href={"/favicon.ico"}/>
             </Head>
-            <main className={"container mx auto max-w-xl pt-8 min-h-screen"}>
-                <h1 className="text-4xl mb-8 justify-center">
+            <main >
+                <h1 className="text-5xl mb-8 py-4 text-center">
                     Pokedex
                 </h1>
                 {props.children}
