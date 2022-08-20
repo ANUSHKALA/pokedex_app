@@ -152,7 +152,7 @@ const Home: NextPage = (props:any) => {
 export const getServerSideProps = (async () => {
 
 
-    const res = await fetch('https://pokeapi.co/api/v2/pokemon?limit=500&offset=0');
+    const res = await fetch('https://pokeapi.co/api/v2/pokemon?limit=300&offset=0');
     const results = await res.json() ;
     type typeInfoMap ={
         name:String,
