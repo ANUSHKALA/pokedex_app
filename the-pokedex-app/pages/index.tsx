@@ -43,7 +43,7 @@ const Home: NextPage = (props:any) => {
         const info:[] = [];
 
 
-        const res = await fetch('https://pokeapi.co/api/v2/pokemon?limit=10&offset=0');
+        const res = await fetch('https://pokeapi.co/api/v2/pokemon?limit=400&offset=0');
         const jres = await res.json();
 
         jres.results.map((el: String, index: number) => {
@@ -76,7 +76,8 @@ const Home: NextPage = (props:any) => {
             <div className="place-items-center w-screen">
                 <Layout title="PokeDex" handleChange={handleChanges}>
                     {req===""?
-                        <div  className = "grid grid-cols-4 lg:gap-4">
+                        <div className=" flex flex-wrap justify-center">
+                            <div className = "flex lg:gap-4 flex-wrap">
                                 {props.info.map(function (el:any,index:number){
                                     return(
                                         <Card key={index} title={el.name} imgUrl={el.img} i={el.in}>
@@ -85,6 +86,7 @@ const Home: NextPage = (props:any) => {
                                         </Card>
                                     )
                                 })}
+                            </div>
                             {console.log(req)}
                         </div>:
                         <div>
@@ -155,7 +157,7 @@ export const getServerSideProps = (async () => {
             in:{}
         }
 
-    const res = await fetch('https://pokeapi.co/api/v2/pokemon?limit=20 0&offset=0');
+    const res = await fetch('https://pokeapi.co/api/v2/pokemon?limit=100 0&offset=0');
     const results = await res.json() ;
 
     let arr:[] = [];

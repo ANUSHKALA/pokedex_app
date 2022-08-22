@@ -35,7 +35,7 @@ export default function Page() {
                                 src={data.image}
                                 // width="200px"
                                 // height="200px"
-                                className=" shadow-lg max-w-fit h-60 align-middle border-none undefined bg-gray-800 grid h-50 w-50px place-items-center"
+                                className=" shadow-lg max-w-fit h-60 align-middle border-none undefined bg-grey-800 grid h-50 w-50px place-items-center"
                               />
                             {/*<Image src={data.image} layout='fill'/>*/}
                         <h1 className="text-center text-3xl">
