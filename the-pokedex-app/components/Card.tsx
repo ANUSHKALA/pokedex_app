@@ -9,21 +9,55 @@ type CardProps = {
     children:React.ReactNode
 };
 
+const types = new Map();
+types.set("normal","slate-300")
+types.set("fire","amber-500")
+types.set("water","cyan-400")
+types.set("grass","lime-600")
+types.set("electric","yellow-400")
+types.set("ice","teal-100")
+types.set("fighting","rose-800")
+types.set("poison","fuchsia-800")
+types.set("ground","yellow-200")
+types.set("flying","violet-300")
+types.set("psychic","pink-400")
+types.set("bug","lime-400")
+types.set("ghost","violet-900")
+types.set("dark","slate-900")
+types.set("dragon","cyan-800")
+types.set("steel","zinc-400")
+types.set("fairy","rose-200")
+
 
 const Card = (props:CardProps) =>{
 
-    console.log(props.title);
+    function colourCard(){
+        let bc:String = "stone-800";
+        let color:String = props.i.type;
+
+        if(types.has(color)){
+            console.log("yes")
+            bc = types.get(color)
+        }
+        else{
+            bc = "stone:800"
+        }
+        const tc:any = "rounded-xl shadow-lg overflow-hidden mx-10 w-40 bg-"+bc
+        return tc;
+    }
+
 
     return(
-        <div className="flex ">
-            <div className="w-full md:w-6/12 lg:w-3/12 lg:mb-0 mb-12 px-4">
-                <div  className="px-1 ml-10">
-                    <img className="rounded-xl shadow-lg max-w-full h-auto align-middle border-none undefined bg-amber-50"
-                        // @ts-ignore
-                         src={props.imgUrl}/>
-                    <div className="pt-6 text-center">
-                        <h1 className="text-amber-100 text-xl font-serif font-bold leading-normal mt-0 mb-2">{(props.title)}</h1>
-                        <div className="flex items-center justify-center">
+
+                <div className=" py-10 ">
+                    <div className={colourCard()}>
+                        <img className="items-center" src={props.imgUrl} alt=""/>
+
+
+                            <h5 className="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white capitalize">{(props.title)}</h5>
+
+
+                        <div className="flex ">
                             <Link href={{
                                 pathname:'/info/PokePage',
 
@@ -49,11 +83,11 @@ const Card = (props:CardProps) =>{
                             </Link>
 
                         </div>
+
                     </div>
 
                 </div>
-            </div>
-        </div>
+
     )
 
 }

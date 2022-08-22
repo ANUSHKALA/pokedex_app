@@ -2,6 +2,7 @@ import Head from 'next/head';
 import Link from "next/link";
 import Layout from "../../components/Layout";
 import {useRouter} from "next/router";
+import Image from "next/image";
 
 
 export default function Page() {
@@ -24,22 +25,27 @@ export default function Page() {
             // @ts-ignore
             title={data.title}>
 
-            <div className="relative text-center">
+            <div className="grid h-screen place-items-center">
 
-                <img
-                    // @ts-ignore
-                    src={data.image}
-                    width="200"
-                    height="200"/>
-                <h1 className="text-center text-3xl">
 
-                    {//@ts-ignore
-                        (data.title)
-                    }
-                </h1>
-                <hr />
+                <div className="relative bottom-40 left-50">
+                    <div>
+                            <img
+                                // @ts-ignore
+                                src={data.image}
+                                // width="200px"
+                                // height="200px"
+                                className=" shadow-lg max-w-fit h-60 align-middle border-none undefined bg-gray-800 grid h-50 w-50px place-items-center"
+                              />
+                            {/*<Image src={data.image} layout='fill'/>*/}
+                        <h1 className="text-center text-3xl">
 
-                <div>
+                            {//@ts-ignore
+                                (data.title)
+                            }
+                        </h1>
+                        <hr />
+                    </div>
                     Weight: { Number(data.w)}
                     <br />
                     Height: { Number(data.h)}

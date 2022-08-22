@@ -13,136 +13,133 @@ import {type} from "os";
 const Home: NextPage = (props:any) => {
 
     let searchName:String = ""
-    const[info, setInfo] = useState({});
-    const[reqIndex, setReqIndex] = useState(0);
-    const[data, setData] = useState({});
-    let mp:Array<String> = [];
+    const[req, setReq] = useState("");
+    const[data, setData] = useState([]);
+    searchName = ""
+    type typeInfoMap ={
+        name:String,
+        img:String,
+        count:number,
+        in:{}
+    }
 
-    function handleChange(e: React.FormEvent<HTMLInputElement>) {
+    function handleChanges(e: React.FormEvent<HTMLInputElement>) {
         // @ts-ignore
         searchName = e.target.value
         console.log(searchName);
+        // @ts-ignore
+        setReq(e.target.value);
 
         refMap();
 
     }
 
+    console.log("hgc "+searchName)
+    console.log(req)
 
     async function refMap() {
 
-        const res = await fetch('https://pokeapi.co/api/v2/pokemon?limit=3&offset=0');
+        let mp:Array<String> = [];
+        const info:[] = [];
+
+
+        const res = await fetch('https://pokeapi.co/api/v2/pokemon?limit=10&offset=0');
         const jres = await res.json();
 
         jres.results.map((el: String, index: number) => {
             // @ts-ignore
             mp.push({name: el.name, index: index + 1})
-
         })
+        // console.log(mp)
 
-        mp.map(async (el, index) => {
+
+        mp.map(async (el:String, index) => {
             // @ts-ignore
-            if (el.name === searchName) {
-                console.log("yasss")
-                // console.log(el.name)
-                console.log(searchName)
-
-                const r = await fetch("https://pokeapi.co/api/v2/pokemon/" + index + 1 + "/");
-                setInfo(await r.json());
-
-                console.log("info")
-                console.log(info)
-
-            } else {
-                console.log("no no no");
-                // console.log(el.name)
-                console.log(searchName)
-
+            if(String(el.name).includes(req.toLowerCase())){
+                const req = await fetch("https://pokeapi.co/api/v2/pokemon/"+el.index+"/")
+                const jreq = await req.json()
+                // @ts-ignore
+                info.push(jreq);
+                // console.log(info)
             }
         })
 
+        setData(info);
+        console.log(data)
+
+
     }
 
-    // function sendingData(){
-    //
-    //
-    //
-    // }
-
-
-
-    // console.log(pokemon)
-
-    if(searchName === ""){
+    console.log(searchName)
 
         return (
+            <div className="place-items-center w-screen">
+                <Layout title="PokeDex" handleChange={handleChanges}>
+                    {req===""?
+                        <div  className = "grid grid-cols-4 lg:gap-4">
+                                {props.info.map(function (el:any,index:number){
+                                    return(
+                                        <Card key={index} title={el.name} imgUrl={el.img} i={el.in}>
+                                            {el.name}
+                                            <img src={el.img}/>
+                                        </Card>
+                                    )
+                                })}
+                            {console.log(req)}
+                        </div>:
+                        <div>
+                            <div  className="px-3 flex  ">
+                                {data.map(function (el:any,index:number){
 
-            <div className="">
-                <Layout title="PokeDex" >
-                    {/*<div>*/}
-                    {/*    <form>*/}
-                    {/*        <input onChange={handleChange} className="flex flex-col justify-center text-gray-900" name="pokename" type="text" id="pokename" placeholder="Enter pokemon name"/>*/}
-                    {/*        /!*<Link*!/*/}
-                    {/*        /!*    href={{*!/*/}
-                    {/*        /!*        pathname:'/info/SearchPage',*!/*/}
-                    {/*        /!*        query:{*!/*/}
-                    {/*        /!*            // @ts-ignore*!/*/}
-                    {/*        /!*            title: info.name,*!/*/}
-                    {/*        /!*            // @ts-ignore*!/*/}
-                    {/*        /!*            image:info.img,*!/*/}
-                    {/*        /!*            // @ts-ignore*!/*/}
-                    {/*        /!*            about:info.in*!/*/}
-                    {/*        /!*        }*!/*/}
+                                    let infoArr: typeInfoMap = {img: "", name: "",count:0,in:{}}
+                                    let abilityArr:[] = []
+                                    let inArr:[] = [];
+                                    // @ts-ignore
+                                    el.abilities.map((el:String,index:number) => {
+                                        // @ts-ignore
+                                        abilityArr.push(el.ability.name);
+                                    })
 
-                    {/*        /!*    }}>*!/*/}
-                    {/*            <button*/}
-                    {/*                // @ts-ignore*/}
-                    {/*                // onClick={refMap}*/}
-                    {/*                type="button"*/}
-                    {/*                data-mdb-ripple="true"*/}
-                    {/*                data-mdb-ripple-color="light"*/}
-                    {/*                name="goButton"*/}
-                    {/*                className="inline-block px-6 py-2.5 bg-green-700 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"*/}
-                    {/*            >Go</button>*/}
-                    {/*        /!*</Link>*!/*/}
-                    {/*    </form>*/}
-                    {/*</div>*/}
-                    {props.info.map(function (el:any,index:number){
-                        return(
-                            <div key={index} className = "grid lg:grid-cols-4">
-                                <Card key={index} title={el.name} imgUrl={el.img} i={el.in}>
-                                    {el.name}
-                                    <img src={el.img}/>
-                                </Card>
+                                    // console.log(abilityArr)
+                                    // @ts-ignore
+                                    infoArr['name'] = el.name;
+                                    // @ts-ignore
+                                    infoArr['img'] = el.sprites.front_default;
+                                    infoArr['in'] = {
+                                        // @ts-ignore
+                                        'weight':el.weight,
+                                        // @ts-ignore
+                                        'height':el.height,
+                                        "abilities":abilityArr,
+                                        // @ts-ignore
+                                        'type':el.types[0].type.name,
+                                    }
+
+                                    console.log(abilityArr)
+
+                                    // @ts-ignore
+                                    inArr.push(infoArr)
+
+                                    return(
+                                        <Card key={index} title={infoArr.name} imgUrl={infoArr.img} i={infoArr.in}>
+                                            {el.img}
+
+                                            {console.log(typeof (el.in))}
+                                            <img src={el.img}/>
+                                        </Card>
+                                    )
+                                })}
                             </div>
-                        )
-                    })}
+                        </div>
+                    }
                 </Layout>
             </div>
 
         )
 
-    }
 
-    return(
-        <Layout
-            // @ts-ignore
-            title={info.name}>
-            <div>
 
-                <Card
-                    // @ts-ignore
-                    title={info.name}
-                    // @ts-ignore
-                    imgUrl={info.sprites.front_default}
-                    // @ts-ignore
-                    i={(data.about)}
-                >
-                </Card>
 
-            </div>
-
-        </Layout>
-    )
 
 
 }
@@ -151,15 +148,16 @@ const Home: NextPage = (props:any) => {
 
 export const getServerSideProps = (async () => {
 
+        type typeInfoMap ={
+            name:String,
+            img:String,
+            count:number,
+            in:{}
+        }
 
-    const res = await fetch('https://pokeapi.co/api/v2/pokemon?limit=300&offset=0');
+    const res = await fetch('https://pokeapi.co/api/v2/pokemon?limit=20 0&offset=0');
     const results = await res.json() ;
-    type typeInfoMap ={
-        name:String,
-        img:String,
-        count:number,
-        in:{}
-    }
+
     let arr:[] = [];
     let info:[] = [];
 
