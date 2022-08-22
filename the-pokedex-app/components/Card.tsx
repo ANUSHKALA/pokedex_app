@@ -34,6 +34,7 @@ const Card = (props:CardProps) =>{
 
     function colourCard(){
         let bc:String = "stone-800";
+        // @ts-ignore
         let color:String = props.i.type;
 
         if(types.has(color)){
@@ -53,7 +54,10 @@ const Card = (props:CardProps) =>{
 
                 <div className="py-10">
                     <div className={colourCard()}>
-                        <img className="items-center px-10 " src={props.imgUrl}  alt="a pokemon"/>
+
+                        <img className="items-center px-10 "
+                            // @ts-ignore
+                             src={props.imgUrl}  alt="a pokemon"/>
                             <h5 className="mb-2 text-center text-xl font-bold tracking-tight text-gray-900 dark:text-white capitalize">{(props.title)}</h5>
                         <div className="flex">
                             <Link href={{

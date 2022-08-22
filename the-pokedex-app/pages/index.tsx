@@ -56,6 +56,7 @@ const Home: NextPage = (props:any) => {
         mp.map(async (el:String, index) => {
             // @ts-ignore
             if(String(el.name).includes(req.toLowerCase())){
+                // @ts-ignore
                 const req = await fetch("https://pokeapi.co/api/v2/pokemon/"+el.index+"/")
                 const jreq = await req.json()
                 // @ts-ignore
@@ -76,6 +77,7 @@ const Home: NextPage = (props:any) => {
             <div className="place-items-center w-screen">
                 <Layout title="PokeDex" handleChange={handleChanges}>
                     {req===""?
+                        // @ts-ignore
                         <div className=" flex flex-wrap justify-center">
                             <div className = "flex lg:gap-4 flex-wrap">
                                 {props.info.map(function (el:any,index:number){
